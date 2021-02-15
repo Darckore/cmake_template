@@ -12,5 +12,5 @@ execute_process(COMMAND "${CMAKE_COMMAND}" --build .
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src"
+add_subdirectory("${OPT_GTEST_DIR}"
                  "${CMAKE_BINARY_DIR}/googletest-build")
