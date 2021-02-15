@@ -21,6 +21,8 @@ add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src"
 include("${OPT_UTILS_DIR}/utils.cmake")
 set(TARGET_NAME tests)
 
+include(GoogleTest)
+
 project(${TARGET_NAME} CXX)
 
 set(SRC_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -35,6 +37,7 @@ make_src_groups(${SRC_ROOT} "${SOURCE_FILES}")
 set_warn_level(${TARGET_NAME})
 
 target_link_libraries(${TARGET_NAME} gtest)
+gtest_discover_tests(${TARGET_NAME})
 
 if(MSVC)
   set_target_properties(
