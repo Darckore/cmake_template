@@ -20,7 +20,7 @@ make_src_groups(${SRC_ROOT} "${SOURCE_FILES}")
 
 set_warn_level(${TARGET_NAME})
 
-target_link_libraries(${TARGET_NAME} gtest)
+target_link_libraries(${TARGET_NAME} gtest gmock gtest_main gmock_main)
 gtest_discover_tests(${TARGET_NAME})
 
 if(MSVC)
