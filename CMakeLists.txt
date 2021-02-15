@@ -4,10 +4,13 @@ project(someproj CXX)
 
 include("init.cmake")
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(THIRD_PARTY_DIR third_party)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER cmake)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out)
-
 
 add_subdirectory("libsomething")
 
@@ -21,4 +24,9 @@ if(OPT_TESTS)
   add_subdirectory("test")
   target_link_libraries(tests libsomething)
   add_dependencies(tests app)
+  
+  set_target_properties(gtest PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
+  set_target_properties(gmock PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
+  set_target_properties(gtest_main PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
+  set_target_properties(gmock_main PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
 endif()
