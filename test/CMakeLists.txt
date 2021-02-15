@@ -1,22 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
-find_package(Threads REQUIRED)
 
-include(ExternalProject)
-
-set(GTEST_DL "googletest-download")
-configure_file(CMakeLists.txt.in "${CMAKE_BINARY_DIR}/${GTEST_DL}/CMakeLists.txt")
-execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
-               WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${GTEST_DL}")
-execute_process(COMMAND "${CMAKE_COMMAND}" --build .
-                WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${GTEST_DL}")
-
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src"
-                 "${CMAKE_BINARY_DIR}/googletest-build")
-
-
-#####################################################################
+add_subdirectory("${OPT_UTILS_DIR}/third_party/gtest" gtest)
 
 include("${OPT_UTILS_DIR}/utils.cmake")
 set(TARGET_NAME tests)
@@ -41,7 +25,7 @@ gtest_discover_tests(${TARGET_NAME})
 
 if(MSVC)
   set_target_properties(
-  ${TARGET_NAME} PROPERTIES
-  VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>"
-  VS_DEBUGGER_COMMAND_ARGUMENTS "--gtest_filter=*")
+    ${TARGET_NAME} PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>"
+    VS_DEBUGGER_COMMAND_ARGUMENTS "--gtest_filter=*")
 endif()
