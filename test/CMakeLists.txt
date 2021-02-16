@@ -22,6 +22,7 @@ set_warn_level(${TARGET_NAME})
 
 target_link_libraries(${TARGET_NAME} gtest gmock gtest_main gmock_main)
 gtest_discover_tests(${TARGET_NAME})
+add_compile_definitions(TEST_BASE_DIR="$<TARGET_FILE_DIR:${TARGET_NAME}>")
 
 if(MSVC)
   set_target_properties(

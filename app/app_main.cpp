@@ -1,7 +1,7 @@
-#include "fmt/core.h"
+#include "libsomething/libsource.h"
 
 int main()
 {
-  fmt::print("{} {}, {}\n", "Hai", "dere", "m8");
+  something::derpy::msg();
   return 0;
 }

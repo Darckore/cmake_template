@@ -20,3 +20,11 @@
 #include <filesystem>
 #include <memory>
 #include <stdexcept>
+
+// just because it is often needed everywhere
+using namespace std::literals;
+
+// third-party headers
+#ifdef FMT_BUILT
+  #include "fmt/core.h"
+#endif

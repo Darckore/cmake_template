@@ -23,16 +23,23 @@ if(OPT_TESTS)
   enable_testing()
   add_subdirectory("test")
   target_link_libraries(tests libsomething)
-  add_dependencies(tests app)
+  
+  if(OPT_APP)
+    add_dependencies(tests app)
+  endif()
   
   set_target_properties(gtest PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
   set_target_properties(gmock PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
   set_target_properties(gtest_main PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
   set_target_properties(gmock_main PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
+  
+  target_compile_definitions(tests PUBLIC GTEST_BUILT)
 endif()
 
 if(OPT_FMT)
   add_subdirectory("${OPT_UTILS_DIR}/third_party/fmt" fmt)
   target_link_libraries(libsomething fmt)
   set_target_properties(fmt PROPERTIES FOLDER ${THIRD_PARTY_DIR}/fmt)
+  
+  target_compile_definitions(libsomething PUBLIC FMT_BUILT)
 endif()
