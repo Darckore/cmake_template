@@ -1,8 +1,26 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(someproj CXX)
+set(OPT_PCH_NAME "pch.h")
+set(OPT_CXX_STD "cxx_std_20")
+set(OPT_UTILS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/_cmake")
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
-include("init.cmake")
+if (NOT DEFINED BUILT_FROM_ROOT)
+  set(BUILT_FROM_ROOT OFF)
+  if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+    set(BUILT_FROM_ROOT ON)
+  endif ()
+endif ()
+
+set(OPT_FMT_DIR "${CMAKE_SOURCE_DIR}/../_third_party/fmtlib" CACHE PATH "Fmtlib repo will be cloned here")
+option(OPT_FMT "Whether or not to build the fmt lib" ON)
+
+set(OPT_GTEST_DIR "${CMAKE_SOURCE_DIR}/../_third_party/gtest" CACHE PATH "Gtest repo will be cloned here")
+option(OPT_TESTS "Whether or not to build tests" ${BUILT_FROM_ROOT})
+
+option(OPT_APP "Whether or not to build the application" ${BUILT_FROM_ROOT})
+
+project(someproj CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(THIRD_PARTY_DIR third_party)
