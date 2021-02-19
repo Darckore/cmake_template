@@ -13,8 +13,7 @@ TEST(thingy, herpy)
 
 TEST(other_thingy, file)
 {
-  constexpr auto fileName = TEST_BASE_DIR"/sample/some_test_file"sv;
-  std::ifstream f{ fileName };
+  std::ifstream f{ TEST_BASE_DIR"/sample/some_test_file" };
   EXPECT_TRUE(f);
 
   std::string file_contents;
