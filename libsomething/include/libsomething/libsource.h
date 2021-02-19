@@ -11,6 +11,7 @@ namespace something
     derpy& operator=(const derpy&) = delete;
     derpy& operator=(derpy&&) = delete;
 
+    static void init();
     static void msg();
     static std::string get_msg();
   };
