@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
 
-add_subdirectory("${OPT_UTILS_DIR}/third_party/gtest" gtest)
-
 include("${OPT_UTILS_DIR}/utils.cmake")
 
 include(GoogleTest)

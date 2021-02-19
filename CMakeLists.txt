@@ -43,7 +43,11 @@ if(OPT_APP)
   target_link_libraries(${TARGET_NAME} ${LIB0_TARGET})
 endif()
 
-if(OPT_TESTS)
+if(OPT_TESTS AND NOT TARGET gtest)
+  add_subdirectory("${OPT_UTILS_DIR}/third_party/gtest" gtest)
+endif()
+
+if(TARGET gtest)
   enable_testing()
   set(TARGET_NAME ${TESTS_TARGET})
   add_subdirectory("${TARGET_NAME}")
@@ -61,10 +65,12 @@ if(OPT_TESTS)
   target_compile_definitions(${TARGET_NAME} PUBLIC GTEST_BUILT)
 endif()
 
-if(OPT_FMT)
+if(OPT_FMT AND NOT TARGET fmt)
   add_subdirectory("${OPT_UTILS_DIR}/third_party/fmt" fmt)
+endif()
+
+if(TARGET fmt)
   target_link_libraries(${LIB0_TARGET} fmt)
   set_target_properties(fmt PROPERTIES FOLDER ${THIRD_PARTY_DIR}/fmt)
-  
   target_compile_definitions(${LIB0_TARGET} PUBLIC FMT_BUILT)
 endif()
