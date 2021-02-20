@@ -1,30 +1,9 @@
 cmake_minimum_required(VERSION 3.18)
-
 include("${OPT_UTILS_DIR}/utils.cmake")
 
 project(${TARGET_NAME} CXX)
 
-collect_sources(${CMAKE_CURRENT_SOURCE_DIR} SOURCE_FILES)
-
-set(ADDITIONAL_FILES "${CMAKE_CURRENT_SOURCE_DIR}/sample/some_test_file")
-
-add_executable(${TARGET_NAME} ${SOURCE_FILES} ${OPT_PCH_NAME} ${ADDITIONAL_FILES})
-
-target_compile_features(${TARGET_NAME} PRIVATE ${OPT_CXX_STD})
-target_precompile_headers(${TARGET_NAME} PRIVATE ${OPT_PCH_NAME})
-make_src_groups(${CMAKE_CURRENT_SOURCE_DIR} "${SOURCE_FILES}")
-
-set_warn_level(${TARGET_NAME})
-
-add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   "${CMAKE_CURRENT_SOURCE_DIR}/sample"
-                   "$<TARGET_FILE_DIR:${TARGET_NAME}>/sample")
-
-source_group("sample" ${ADDITIONAL_FILES})
-
-if(MSVC)
-  set_target_properties(
-  ${TARGET_NAME} PROPERTIES
-  VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
-endif()
+collect_sources(${CMAKE_CURRENT_SOURCE_DIR} SOURCE_FILES HEADERS ADDITIONAL_FILES)
+add_executable(${TARGET_NAME} ${SOURCE_FILES} ${HEADERS} ${OPT_PCH_NAME} ${ADDITIONAL_FILES})
+make_src_groups(${CMAKE_CURRENT_SOURCE_DIR} "${SOURCE_FILES}" "${HEADERS}" "${ADDITIONAL_FILES}")
+set_build_opts(${CMAKE_CURRENT_SOURCE_DIR} ${TARGET_NAME})

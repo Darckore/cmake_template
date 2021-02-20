@@ -1,24 +1,28 @@
 cmake_minimum_required(VERSION 3.18)
 
 set(OPT_PCH_NAME "pch.h")
-set(OPT_CXX_STD "cxx_std_20")
+set(OPT_STD "cxx_std_20")
 set(OPT_UTILS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/_cmake")
+set(OPT_DATA_DIR "data")
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
 if (NOT DEFINED BUILT_FROM_ROOT)
   set(BUILT_FROM_ROOT OFF)
   if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     set(BUILT_FROM_ROOT ON)
-  endif ()
-endif ()
+  endif()
+endif()
 
 set(OPT_FMT_DIR "${CMAKE_SOURCE_DIR}/../_third_party/fmtlib" CACHE PATH "Fmtlib repo will be cloned here")
-option(OPT_FMT "Whether or not to build the fmt lib" ON)
 
 set(OPT_GTEST_DIR "${CMAKE_SOURCE_DIR}/../_third_party/gtest" CACHE PATH "Gtest repo will be cloned here")
 option(OPT_TESTS "Whether or not to build tests" ${BUILT_FROM_ROOT})
 
 option(OPT_APP "Whether or not to build the application" ${BUILT_FROM_ROOT})
+
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/_bin" CACHE PATH "Install dir" FORCE)
+endif()
 
 project(someproj CXX)
 
@@ -65,7 +69,7 @@ if(TARGET gtest)
   target_compile_definitions(${TARGET_NAME} PUBLIC GTEST_BUILT)
 endif()
 
-if(OPT_FMT AND NOT TARGET fmt)
+if(NOT TARGET fmt)
   add_subdirectory("${OPT_UTILS_DIR}/third_party/fmt" fmt)
 endif()
 
