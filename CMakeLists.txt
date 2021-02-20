@@ -14,17 +14,13 @@ if (NOT DEFINED BUILT_FROM_ROOT)
 endif()
 
 set(OPT_FMT_DIR "${CMAKE_SOURCE_DIR}/../_third_party/fmtlib" CACHE PATH "Fmtlib repo will be cloned here")
-
 set(OPT_GTEST_DIR "${CMAKE_SOURCE_DIR}/../_third_party/gtest" CACHE PATH "Gtest repo will be cloned here")
 option(OPT_TESTS "Whether or not to build tests" ${BUILT_FROM_ROOT})
-
 option(OPT_APP "Whether or not to build the application" ${BUILT_FROM_ROOT})
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/_bin" CACHE PATH "Install dir" FORCE)
 endif()
-
-project(someproj CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(THIRD_PARTY_DIR third_party)
@@ -38,6 +34,9 @@ set(APP_TARGET app)
 set(LIB0_TARGET libsomething) 
 set(TESTS_TARGET tests) 
 
+
+project(someproj CXX)
+
 set(TARGET_NAME ${LIB0_TARGET})
 add_subdirectory("${TARGET_NAME}")
 
@@ -48,7 +47,7 @@ if(OPT_APP)
 endif()
 
 if(OPT_TESTS AND NOT TARGET gtest)
-  add_subdirectory("${OPT_UTILS_DIR}/third_party/gtest" gtest)
+  add_subdirectory("${OPT_UTILS_DIR}/${THIRD_PARTY_DIR}/gtest" gtest)
 endif()
 
 if(TARGET gtest)
@@ -70,11 +69,10 @@ if(TARGET gtest)
 endif()
 
 if(NOT TARGET fmt)
-  add_subdirectory("${OPT_UTILS_DIR}/third_party/fmt" fmt)
+  add_subdirectory("${OPT_UTILS_DIR}/${THIRD_PARTY_DIR}/fmt" fmt)
 endif()
 
 if(TARGET fmt)
   target_link_libraries(${LIB0_TARGET} fmt)
   set_target_properties(fmt PROPERTIES FOLDER ${THIRD_PARTY_DIR}/fmt)
-  target_compile_definitions(${LIB0_TARGET} PUBLIC FMT_BUILT)
 endif()

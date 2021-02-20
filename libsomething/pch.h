@@ -25,8 +25,6 @@
 using namespace std::literals;
 
 // third-party headers
-#ifdef FMT_BUILT
-  #include "fmt/core.h"
-  #include "fmt/color.h"
-  #include "fmt/compile.h"
-#endif
+#include "fmt/core.h"
+#include "fmt/color.h"
+#include "fmt/compile.h"
