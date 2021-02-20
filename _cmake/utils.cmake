@@ -46,7 +46,7 @@ function(set_build_opts ROOT_DIR TARGET_NAME)
   target_include_directories(${TARGET_NAME} PUBLIC "${ROOT_DIR}/include")
 
   if(MSVC)
-    target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
+    target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX /JMC)
     set_target_properties( ${TARGET_NAME} PROPERTIES
                            VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
   else()
