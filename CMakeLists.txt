@@ -18,10 +18,6 @@ set(OPT_GTEST_DIR "${CMAKE_SOURCE_DIR}/../_third_party/gtest" CACHE PATH "Gtest 
 option(OPT_TESTS "Whether or not to build tests" ${BUILT_FROM_ROOT})
 option(OPT_APP "Whether or not to build the application" ${BUILT_FROM_ROOT})
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/_bin" CACHE PATH "Install dir" FORCE)
-endif()
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(THIRD_PARTY_DIR third_party)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER cmake)
@@ -66,6 +62,7 @@ if(TARGET gtest)
   set_target_properties(gmock_main PROPERTIES FOLDER ${THIRD_PARTY_DIR}/gtest)
   
   target_compile_definitions(${TARGET_NAME} PUBLIC GTEST_BUILT)
+  set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 endif()
 
 if(NOT TARGET fmt)
@@ -75,4 +72,8 @@ endif()
 if(TARGET fmt)
   target_link_libraries(${LIB0_TARGET} fmt)
   set_target_properties(fmt PROPERTIES FOLDER ${THIRD_PARTY_DIR}/fmt)
+endif()
+
+if(BUILT_FROM_ROOT)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/_bin" CACHE PATH "Install dir" FORCE)
 endif()
