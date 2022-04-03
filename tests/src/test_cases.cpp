@@ -21,13 +21,6 @@ TEST(other_thingy, file)
   EXPECT_EQ(file_contents, "stub");
 }
 
-TEST(other_thingy, format)
-{
-  auto formatStr = "It is {1}, not {0}"sv;
-  auto str = fmt::format(formatStr, 42, 23);
-  EXPECT_EQ(str, "It is 23, not 42");
-}
-
 
 TEST(lib, msg)
 {
