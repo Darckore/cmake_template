@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.23)
 include(ExternalProject)
 
 set(FMT_DL "fmt-download")
