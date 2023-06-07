@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../libsomething/pch.h"
+#include "../static_lib/pch.h"
 
 // third-party headers
 #ifdef GTEST_BUILT

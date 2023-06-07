@@ -1,8 +1,7 @@
-#include "libsomething/libsource.h"
+#include "static_lib/header.hpp"
 
 int main()
 {
-  something::derpy::init();
-  something::derpy::msg();
+  lib::hai();
   return 0;
 }

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.26)
 
 set(OPT_PCH_NAME "pch.h")
 set(OPT_STD "cxx_std_23")
@@ -13,8 +13,8 @@ if (NOT DEFINED BUILT_FROM_ROOT)
   endif()
 endif()
 
-set(OPT_FMT_DIR "${CMAKE_SOURCE_DIR}/../_third_party/fmtlib" CACHE PATH "Fmtlib repo will be cloned here")
 set(OPT_GTEST_DIR "${CMAKE_SOURCE_DIR}/../_third_party/gtest" CACHE PATH "Gtest repo will be cloned here")
+set(OPT_DUTILS_DIR "${CMAKE_SOURCE_DIR}/../_deps/utils" CACHE PATH "Utils repo will be cloned here")
 option(OPT_TESTS "Whether or not to build tests" ${BUILT_FROM_ROOT})
 option(OPT_APP "Whether or not to build the application" ${BUILT_FROM_ROOT})
 
@@ -27,11 +27,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out)
 
 set(APP_TARGET app)
-set(LIB0_TARGET libsomething) 
+set(LIB0_TARGET static_lib) 
 set(TESTS_TARGET tests) 
 
 
-project(someproj CXX)
+project(project_template CXX)
 
 set(TARGET_NAME ${LIB0_TARGET})
 add_subdirectory("${TARGET_NAME}")
@@ -65,14 +65,17 @@ if(OPT_TESTS AND TARGET gtest)
   set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 endif()
 
-if(NOT TARGET fmt)
-  add_subdirectory("${OPT_UTILS_DIR}/${THIRD_PARTY_DIR}/fmt" fmt)
+set(TARGET_NAME utils)
+set(OPT_TESTS OFF)
+set(OPT_APP OFF)
+add_subdirectory("${OPT_UTILS_DIR}/${THIRD_PARTY_DIR}/utils" ${TARGET_NAME})
+target_link_libraries(${LIB0_TARGET} ${TARGET_NAME})
+
+if(OPT_APP)
+  target_link_libraries(${APP_TARGET} ${TARGET_NAME})
 endif()
 
-if(TARGET fmt)
-  target_link_libraries(${LIB0_TARGET} fmt)
-  set_target_properties(fmt PROPERTIES FOLDER ${THIRD_PARTY_DIR}/fmt)
-endif()
+set_target_properties(${TARGET_NAME} PROPERTIES FOLDER additional_deps/utils)
 
 if(BUILT_FROM_ROOT)
   set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/_bin" CACHE PATH "Install dir" FORCE)
